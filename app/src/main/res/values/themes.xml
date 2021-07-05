@@ -1,15 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WorldWideNews" parent="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge">
+    <style name="Theme.WorldWideNews" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
-        <item name="colorPrimaryDark">#F57C00</item>
-        <item name="colorPrimaryVariant">#FFE0B2</item>
-        <item name="colorPrimary">#FF9800</item>
-
+        <item name="colorPrimaryDark">#0288D1</item>
+        <item name="colorPrimaryVariant">#B3E5FC</item>
+        <item name="colorPrimary">#03A9F4</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#FFC107</item>
-        <item name="colorSecondaryVariant">#FFC107</item>
+        <item name="colorSecondary">#00BCD4</item>
+        <item name="colorSecondaryVariant">#00BCD4</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

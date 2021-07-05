@@ -7,25 +7,74 @@
     <fragment
         android:id="@+id/breakingNewsFragment"
         android:name="android.mohamed.worldwidenews.ui.BreakingNewsFragment"
-        android:label="BreakingNewsFragment" />
+        android:label="BreakingNewsFragment" >
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/searchNewsFragment"
         android:name="android.mohamed.worldwidenews.ui.SearchNewsFragment"
-        android:label="SearchNewsFragment" />
+        android:label="SearchNewsFragment" >
+        <action
+            android:id="@+id/action_searchNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
         android:name="android.mohamed.worldwidenews.ui.SavedNewsFragment"
-        android:label="SavedNewsFragment" />
+        android:label="SavedNewsFragment" >
+        <action
+            android:id="@+id/action_savedNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
     <action
         android:id="@+id/action_global_breakingNewsFragment"
         app:destination="@id/breakingNewsFragment"
-        app:launchSingleTop="true" />
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_global_savedNewsFragment"
         app:destination="@id/savedNewsFragment"
-        app:launchSingleTop="true" />
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation" />
     <action
         android:id="@+id/action_global_searchNewsFragment"
         app:destination="@id/searchNewsFragment"
-        app:launchSingleTop="true" />
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation" />
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="android.mohamed.worldwidenews.ui.ArticleFragment"
+        android:label="ArticleFragment" >
+        <argument
+            android:name="article"
+            app:argType="android.mohamed.worldwidenews.dataModels.Article" />
+        <action
+            android:id="@+id/action_articleFragment_to_webFragment"
+            app:destination="@id/webFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="android.mohamed.worldwidenews.ui.WebFragment"
+        android:label="WebFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>

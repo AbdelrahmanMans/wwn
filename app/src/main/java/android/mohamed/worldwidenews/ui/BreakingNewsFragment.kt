@@ -1,6 +1,7 @@
 package android.mohamed.worldwidenews.ui
 
 
+import android.mohamed.worldwidenews.R
 import android.mohamed.worldwidenews.adapters.ItemCallBacks
 import android.mohamed.worldwidenews.adapters.NewsListAdapter
 import android.mohamed.worldwidenews.dataModels.Article
@@ -16,6 +17,7 @@ import android.widget.AbsListView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -99,7 +101,8 @@ class BreakingNewsFragment : Fragment(), ItemCallBacks {
     }
 
     override fun onItemClicked(article: Article) {
-
+        val action = BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(article)
+        findNavController().navigate(action)
     }
 
 }

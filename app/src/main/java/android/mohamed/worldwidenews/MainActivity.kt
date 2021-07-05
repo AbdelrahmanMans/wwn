@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding.navView.setNavigationItemSelectedListener {
-            navController.popBackStack()
             when (it.itemId) {
                 R.id.breakingNewsItemMenu -> navController.navigate(R.id.action_global_breakingNewsFragment)
                 R.id.savedNewsItemMenu -> navController.navigate(R.id.action_global_savedNewsFragment)

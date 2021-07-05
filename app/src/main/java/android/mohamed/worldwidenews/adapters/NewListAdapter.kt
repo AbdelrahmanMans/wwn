@@ -29,7 +29,7 @@ class ItemViewHolder(
         binding.apply {
             Glide.with(itemView).load(article.urlToImage).into(newsImage)
             newsTitle.text = article.title
-            newsDate.text = article.publishedAt?.substring(0, 11)
+            newsDate.text = article.publishedAt?.substring(0, 10)
         }
 
     }

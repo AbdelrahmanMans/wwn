@@ -87,7 +87,7 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         try {
             if (checkHasInternet()) {
                 val response = repository.getBreakingNews(countryCode, breakingNewsPage)
-                breakingNews.emit(handleSearchNews(response))
+                breakingNews.emit(handleBreakingNews(response))
             } else {
                 breakingNews.emit(NetworkResponse.Error("no internet connection"))
             }
@@ -104,7 +104,7 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         try {
             if (checkHasInternet()) {
                 val response = repository.getSearchNews(searchQuery, breakingNewsPage)
-                searchNews.emit(handleBreakingNews(response))
+                searchNews.emit(handleSearchNews(response))
             } else {
                 searchNews.emit(NetworkResponse.Error("no internet connection"))
             }
