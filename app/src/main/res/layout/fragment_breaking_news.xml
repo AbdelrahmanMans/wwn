@@ -5,6 +5,8 @@
     android:layout_height="match_parent">
 
     <ProgressBar
+        android:elevation="20dp"
+        android:visibility="gone"
         android:id="@+id/progressBarBreakingNewsFragment"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"

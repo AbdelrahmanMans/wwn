@@ -11,6 +11,7 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +19,12 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
-private const val TAG = "viewModel"
 
 class NewsViewModel(private val repository: NewsRepository, app: Application) :
     AndroidViewModel(app) {
-
+    private var previousSearch = ""
+    private var isLastBreakingNewsPage = false
+    private var isLastSearchNewsPage = false
     val breakingNews: MutableStateFlow<NetworkResponse<NewsResponse>> =
         MutableStateFlow(NetworkResponse.Initialized())
     var breakingNewsResponse: NewsResponse? = null
@@ -56,34 +58,50 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
                     val oldArticle = breakingNewsResponse?.articles
                     val newArticle = resultResponse.articles
                     oldArticle?.addAll(newArticle)
+                    isLastBreakingNewsPage = oldArticle?.size == resultResponse.totalResults
                 }
                 return NetworkResponse.Success(breakingNewsResponse ?: resultResponse)
             }
         }
 
-        return NetworkResponse.Error(response.message())
+        return NetworkResponse.Error(response.message(), breakingNewsResponse)
     }
 
-    private fun handleSearchNews(response: Response<NewsResponse>): NetworkResponse<NewsResponse> {
+    private fun handleSearchNews(
+        response: Response<NewsResponse>,
+        addOldArticle: Boolean = true
+    ): NetworkResponse<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let {
                 searchNewsPageNumber++
                 if (searchNewsResponse == null) {
                     searchNewsResponse = it
                 } else {
-                    val oldArticle = searchNewsResponse?.articles
                     val newArticle = it.articles
-                    oldArticle?.addAll(newArticle)
+
+                    if (addOldArticle)
+                        searchNewsResponse?.articles?.addAll(newArticle)
+                    else {
+                        searchNewsResponse?.articles?.clear()
+                        searchNewsResponse?.articles?.addAll(newArticle)
+                    }
+                    isLastSearchNewsPage = searchNewsResponse?.articles?.size == it.totalResults
                 }
                 return NetworkResponse.Success(searchNewsResponse ?: it)
             }
         }
-
-        return NetworkResponse.Error(response.message())
+        return NetworkResponse.Error(
+            response.message(),
+            searchNewsResponse
+        )
     }
 
     private suspend fun safeBreakingNewsCall(countryCode: String) {
         breakingNews.emit(NetworkResponse.Loading())
+        if (isLastBreakingNewsPage) {
+            breakingNews.emit(NetworkResponse.Error("no more articles"))
+            return
+        }
         try {
             if (checkHasInternet()) {
                 val response = repository.getBreakingNews(countryCode, breakingNewsPage)
@@ -101,10 +119,15 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
 
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         searchNews.emit(NetworkResponse.Loading())
+        if (isLastSearchNewsPage) {
+            searchNews.emit(NetworkResponse.Error("no more articles"))
+            return
+        }
         try {
             if (checkHasInternet()) {
-                val response = repository.getSearchNews(searchQuery, breakingNewsPage)
-                searchNews.emit(handleSearchNews(response))
+                val response = repository.getSearchNews(searchQuery, searchNewsPageNumber)
+                searchNews.emit(handleSearchNews(response, previousSearch == searchQuery))
+                previousSearch = searchQuery
             } else {
                 searchNews.emit(NetworkResponse.Error("no internet connection"))
             }

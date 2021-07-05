@@ -1,26 +1,22 @@
 package android.mohamed.worldwidenews.ui
 
 
-import android.mohamed.worldwidenews.R
 import android.mohamed.worldwidenews.adapters.ItemCallBacks
 import android.mohamed.worldwidenews.adapters.NewsListAdapter
 import android.mohamed.worldwidenews.dataModels.Article
 import android.mohamed.worldwidenews.databinding.FragmentBreakingNewsBinding
-import android.mohamed.worldwidenews.utils.Constants.QUERY_PAGE_ITEM_NUMBER
 import android.mohamed.worldwidenews.utils.NetworkResponse
 import android.mohamed.worldwidenews.viewModels.NewsViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,16 +45,20 @@ class BreakingNewsFragment : Fragment(), ItemCallBacks {
                 when (response) {
                     is NetworkResponse.Success -> {
                         hideProgressBar()
-                        response.data?.let {
-                            newsAdapter.differ.submitList(it.articles.toList())
-
-                        }
+                        if(response.data != null)
+                            newsAdapter.differ.submitList(response.data.articles.toList())
                     }
                     is NetworkResponse.Error -> {
+                        if(response.data != null)
+                            newsAdapter.differ.submitList(response.data.articles.toList())
+                        val errorMessage = if (response.message?.isEmpty() ?: true)
+                            "something went wrong"
+                        else
+                            response.message.toString()
                         hideProgressBar()
                         Snackbar.make(
                             binding.root,
-                            response.message.toString(),
+                            errorMessage,
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
