@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/breakingNewsFragment">
+
+    <fragment
+        android:id="@+id/breakingNewsFragment"
+        android:name="android.mohamed.worldwidenews.ui.BreakingNewsFragment"
+        android:label="BreakingNewsFragment" />
+    <fragment
+        android:id="@+id/searchNewsFragment"
+        android:name="android.mohamed.worldwidenews.ui.SearchNewsFragment"
+        android:label="SearchNewsFragment" />
+    <fragment
+        android:id="@+id/savedNewsFragment"
+        android:name="android.mohamed.worldwidenews.ui.SavedNewsFragment"
+        android:label="SavedNewsFragment" />
+    <action
+        android:id="@+id/action_global_breakingNewsFragment"
+        app:destination="@id/breakingNewsFragment"
+        app:launchSingleTop="true" />
+    <action
+        android:id="@+id/action_global_savedNewsFragment"
+        app:destination="@id/savedNewsFragment"
+        app:launchSingleTop="true" />
+    <action
+        android:id="@+id/action_global_searchNewsFragment"
+        app:destination="@id/searchNewsFragment"
+        app:launchSingleTop="true" />
+</navigation>

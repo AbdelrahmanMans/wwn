@@ -34,9 +34,9 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
     var searchNewsPageNumber = 1
 
 
-//    init {
-//        getBreakingNews("eg")
-//    }
+    init {
+        getBreakingNews("us")
+    }
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         safeBreakingNewsCall(countryCode)
