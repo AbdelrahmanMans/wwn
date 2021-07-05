@@ -20,4 +20,9 @@
         android:icon="@drawable/ic_all_news"
         android:title="search"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/settingsMenu"
+        android:title="settings"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/settings_foreground"/>
 </menu>

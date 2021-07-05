@@ -2,10 +2,12 @@ package android.mohamed.worldwidenews.viewModels
 
 import android.app.Application
 import android.content.Context
+import android.mohamed.worldwidenews.R
 import android.mohamed.worldwidenews.dataModels.Article
 import android.mohamed.worldwidenews.dataModels.NewsResponse
 import android.mohamed.worldwidenews.repository.NewsRepository
 import android.mohamed.worldwidenews.utils.ApplicationClass
+import android.mohamed.worldwidenews.utils.Constants
 import android.mohamed.worldwidenews.utils.NetworkResponse
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
@@ -14,6 +16,7 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -21,11 +24,16 @@ import retrofit2.Response
 import java.io.IOException
 
 
-class NewsViewModel(private val repository: NewsRepository, app: Application) :
+class NewsViewModel(private val repository: NewsRepository, private val app: Application) :
     AndroidViewModel(app) {
     private var previousSearch = ""
     private var isLastBreakingNewsPage = false
     private var isLastSearchNewsPage = false
+    private var userCountry: String? = null
+    private var userCategory: String? = null
+    private var userSearchLanguage: String? = null
+    private var userSearchSortBy: String? = null
+
     val breakingNews: MutableStateFlow<NetworkResponse<NewsResponse>> =
         MutableStateFlow(NetworkResponse.Initialized())
     var breakingNewsResponse: NewsResponse? = null
@@ -38,11 +46,12 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
 
 
     init {
-        getBreakingNews("us")
+        //getBreakingNews()
+        getUserSettings()
     }
 
-    fun getBreakingNews(countryCode: String) = viewModelScope.launch {
-        safeBreakingNewsCall(countryCode)
+    fun getBreakingNews() = viewModelScope.launch {
+        safeBreakingNewsCall()
     }
 
     fun getSearchNews(searchQuery: String) = viewModelScope.launch {
@@ -97,15 +106,20 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         )
     }
 
-    private suspend fun safeBreakingNewsCall(countryCode: String) {
+    private suspend fun safeBreakingNewsCall() {
         breakingNews.emit(NetworkResponse.Loading())
         if (isLastBreakingNewsPage) {
-            breakingNews.emit(NetworkResponse.Error("no more articles"))
+            breakingNews.emit(NetworkResponse.Error("no more articles", breakingNewsResponse))
             return
         }
         try {
             if (checkHasInternet()) {
-                val response = repository.getBreakingNews(countryCode, breakingNewsPage)
+                val response =
+                    repository.getBreakingNews(
+                        userCountry ?: "eg",
+                        userCategory ?: "general",
+                        breakingNewsPage
+                    )
                 breakingNews.emit(handleBreakingNews(response))
             } else {
                 breakingNews.emit(NetworkResponse.Error("no internet connection"))
@@ -121,12 +135,17 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         searchNews.emit(NetworkResponse.Loading())
         if (isLastSearchNewsPage) {
-            searchNews.emit(NetworkResponse.Error("no more articles"))
+            searchNews.emit(NetworkResponse.Error("no more articles", searchNewsResponse))
             return
         }
         try {
             if (checkHasInternet()) {
-                val response = repository.getSearchNews(searchQuery, searchNewsPageNumber)
+                val response = repository.getSearchNews(
+                    searchQuery,
+                    userSearchLanguage ?: "ar",
+                    userSearchSortBy ?: "publishedAt",
+                    searchNewsPageNumber
+                )
                 searchNews.emit(handleSearchNews(response, previousSearch == searchQuery))
                 previousSearch = searchQuery
             } else {
@@ -144,7 +163,7 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         repository.insertArticle(article)
     }
 
-    fun getSavedNews(onFinish : (List<Article>) -> Unit) {
+    fun getSavedNews(onFinish: (List<Article>) -> Unit) {
         viewModelScope.launch {
             val flow = repository.getSavedNews()
             flow.collect {
@@ -185,5 +204,18 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         return false
     }
 
-
+    private fun getUserSettings() {
+        val file = PreferenceManager.getDefaultSharedPreferences(app)
+        val country = file.getString(Constants.PREFERENCE_COUNTRY_KEY, "")
+        val language = file.getString(Constants.PREFERENCE_SEARCH_LANGUAGE_KEY, "")
+        val category = file.getString(Constants.PREFERENCE_CATEGORY_KEY, "")
+        val sortBy = file.getString(Constants.PREFERENCE_SEARCH_SORT_BY, "")
+        app.resources.let {
+            userCountry = it.getStringArray(R.array.breakingNewsCountry)[country?.toInt() ?: 0]
+            userCategory = it.getStringArray(R.array.category)[category?.toInt() ?: 0]
+            userSearchLanguage =
+                it.getStringArray(R.array.searchNewsLanguage)[language?.toInt() ?: 0]
+            userSearchSortBy = it.getStringArray(R.array.searchNewsSortBy)[sortBy?.toInt() ?: 0]
+        }
+    }
 }

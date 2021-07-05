@@ -33,7 +33,7 @@ class BreakingNewsFragment : Fragment(), ItemCallBacks {
         binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
         setupAdapter()
         binding.floatingButtonBreakingNewsFragment.setOnClickListener {
-            viewModel.getBreakingNews("us")
+            viewModel.getBreakingNews()
         }
         return binding.root
     }

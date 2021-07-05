@@ -12,19 +12,25 @@ interface NewsApi {
     suspend fun getBreakingNews(
         @Query("country")
         countryCode: String = "us",
+        @Query("category")
+        category: String,
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
         apiKey: String = API_KEY
-    ) : Response<NewsResponse>
+    ): Response<NewsResponse>
 
     @GET("v2/everything")
     suspend fun getSpecificNews(
         @Query("q")
-        searchQuery: String ,
+        searchQuery: String,
+        @Query("language")
+        language: String,
+        @Query("sortBy")
+        sortBy: String,
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
         apiKey: String = API_KEY
-    ) : Response<NewsResponse>
+    ): Response<NewsResponse>
 }

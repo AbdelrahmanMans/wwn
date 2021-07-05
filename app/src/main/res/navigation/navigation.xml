@@ -77,4 +77,15 @@
             android:name="url"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="android.mohamed.worldwidenews.ui.SettingFragment"
+        android:label="SettingFragment" />
+    <action
+        android:id="@+id/action_global_settingFragment"
+        app:destination="@id/settingFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation" />
 </navigation>

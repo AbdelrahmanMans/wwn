@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="searchNewsLanguage">
+        <item>ar</item>
+        <item>en</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>he</item>
+        <item>it</item>
+        <item>nl</item>
+        <item>no</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>se</item>
+        <item>ud</item>
+        <item>ze</item>
+
+    </string-array>
+
+    <string-array name="searchNewsLanguageValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+    <string-array name="searchNewsSortBy">
+        <item>relevancy</item>
+        <item>popularity</item>
+        <item>publishedAt</item>
+    </string-array>
+    <string-array name="searchNewsSortByValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    
+    <string-array name="breakingNewsCountry">
+        <item>ae</item>
+        <item>ar</item>
+        <item>at</item>
+        <item>au</item>
+        <item>be</item>
+        <item>bg</item>
+        <item>br</item>
+        <item>ca</item>
+        <item>ch</item>
+        <item>cn</item>
+        <item>co</item>
+        <item>cu</item>
+        <item>cz</item>
+        <item>de</item>
+        <item>eg</item>
+        <item>fr</item>
+        <item>gb</item>
+        <item>gr</item>
+        <item>hk</item>
+        <item>hu</item>
+        <item>id</item>
+        <item>ie</item>
+        <item>il</item>
+        <item>in</item>
+        <item>it</item>
+        <item>jp</item>
+        <item>kr</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>ma</item>
+        <item>mx</item>
+        <item>my</item>
+        <item>ng</item>
+        <item>nl</item>
+        <item>no</item>
+        <item>nz</item>
+        <item>ph</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>rs</item>
+        <item>ru</item>
+        <item>sa</item>
+        <item>se</item>
+        <item>sg</item>
+        <item>si</item>
+        <item>sk</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>tw</item>
+        <item>ua</item>
+        <item>us</item>
+        <item>ve</item>
+        <item>za</item>
+</string-array>
+    <string-array name="breakingNewsCountryValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+</string-array>
+
+    <string-array name="category">
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
+    <string-array name="categoryValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+</resources>
