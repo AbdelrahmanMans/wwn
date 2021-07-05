@@ -15,6 +15,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
@@ -143,7 +144,14 @@ class NewsViewModel(private val repository: NewsRepository, app: Application) :
         repository.insertArticle(article)
     }
 
-    fun getSavedNews() = repository.getSavedNews()
+    fun getSavedNews(onFinish : (List<Article>) -> Unit) {
+        viewModelScope.launch {
+            val flow = repository.getSavedNews()
+            flow.collect {
+                onFinish(it.reversed())
+            }
+        }
+    }
 
     fun deleteArticle(article: Article) = viewModelScope.launch {
         repository.deleteNews(article)

@@ -3,17 +3,21 @@ package android.mohamed.worldwidenews.ui
 import android.mohamed.worldwidenews.dataModels.Article
 import android.mohamed.worldwidenews.databinding.FragmentArticleBinding
 import android.mohamed.worldwidenews.databinding.FragmentSavedNewsBinding
+import android.mohamed.worldwidenews.viewModels.NewsViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ArticleFragment : Fragment() {
     private lateinit var binding: FragmentArticleBinding
     private lateinit var article: Article
+    private val viewModel : NewsViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = ArticleFragmentArgs.fromBundle(arguments as Bundle)
@@ -31,6 +35,10 @@ class ArticleFragment : Fragment() {
         binding.articleLink.setOnClickListener {
             val action = ArticleFragmentDirections.actionArticleFragmentToWebFragment(article.url)
             findNavController().navigate(action)
+        }
+        binding.saveArticle.setOnClickListener {
+            viewModel.insertArticle(article)
+            Toast.makeText(requireContext(), "article saved", Toast.LENGTH_SHORT).show()
         }
         return binding.root
     }
