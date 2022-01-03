@@ -42,24 +42,26 @@
 
         <Button
             android:id="@+id/articleLink"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="go to link"
             android:textColor="@color/blue"
             android:textSize="16sp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintEnd_toStartOf="@+id/saveArticle"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/articleDescription" />
+
         <Button
+            android:id="@+id/saveArticle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/saveArticle"
             android:text="save article"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/articleLink"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="16dp"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/articleLink"
+            app:layout_constraintTop_toBottomOf="@id/articleDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

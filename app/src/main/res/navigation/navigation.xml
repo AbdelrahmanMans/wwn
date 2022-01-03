@@ -86,6 +86,5 @@
         app:destination="@id/settingFragment"
         app:enterAnim="@android:anim/fade_in"
         app:exitAnim="@android:anim/fade_out"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/navigation" />
+        app:launchSingleTop="true" />
 </navigation>

@@ -41,6 +41,10 @@ class BreakingNewsFragment : Fragment(), ItemCallBacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenStarted {
+            //handle the state of the breaking news
+            //if success show the data
+            //if error show the error message
+            //if loading show progress bar
             viewModel.breakingNews.collect { response ->
                 when (response) {
                     is NetworkResponse.Success -> {

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-
+//adapter to tell the recycler view the shape of the views
+//and how to put data in them
+//also makes the items clickable
 class ItemViewHolder(
     private val binding: NewsListItemBinding,
     private val listener: ItemCallBacks

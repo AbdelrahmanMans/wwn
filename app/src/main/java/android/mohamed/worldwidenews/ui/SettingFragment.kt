@@ -5,7 +5,7 @@ import android.mohamed.worldwidenews.utils.Constants
 import android.os.Bundle
 import android.util.Log
 import androidx.preference.PreferenceFragmentCompat
-
+//fragment to save the user settings
 class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)

@@ -1,14 +1,17 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="breaking news filters">
         <ListPreference
-            app:defaultValue="eg"
+            android:summary="choose which country to get its breaking news"
+            android:defaultValue="14"
             app:entries="@array/breakingNewsCountry"
             app:entryValues="@array/breakingNewsCountryValue"
             app:key="country"
             app:title="country" />
         <ListPreference
-            app:defaultValue="technology"
+            android:summary="breaking news news category"
+            android:defaultValue="6"
             app:entries="@array/category"
             app:entryValues="@array/categoryValues"
             app:key="category"
@@ -18,13 +21,14 @@
 
     <PreferenceCategory app:title="search news filters">
         <ListPreference
-            app:defaultValue="ar"
+            android:summary="news language in search section"
+            android:defaultValue="0"
             app:entries="@array/searchNewsLanguage"
             app:entryValues="@array/searchNewsLanguageValue"
             app:key="searchLanguage"
             app:title="language" />
         <ListPreference
-            app:defaultValue="publishedAt"
+            android:defaultValue="2"
             app:entries="@array/searchNewsSortBy"
             app:entryValues="@array/searchNewsSortByValues"
             app:key="searchSortBy"

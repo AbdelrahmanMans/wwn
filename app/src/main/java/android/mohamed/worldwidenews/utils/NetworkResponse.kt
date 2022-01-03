@@ -1,5 +1,5 @@
 package android.mohamed.worldwidenews.utils
-
+//wrapper class to make code more readable
 sealed class NetworkResponse<T>(
     val data: T? = null,
     val message: String? = null

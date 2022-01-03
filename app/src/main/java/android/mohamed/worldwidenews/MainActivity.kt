@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsMenu -> navController.navigate(R.id.action_global_settingFragment)
                 else -> navController.navigate(R.id.action_global_searchNewsFragment)
             }
+            binding.drawerLayout.close()
             true
         }
     }

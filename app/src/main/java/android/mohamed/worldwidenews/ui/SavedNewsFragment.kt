@@ -31,7 +31,7 @@ class SavedNewsFragment : Fragment(), ItemCallBacks {
         setupRecyclerView()
         return binding.root
     }
-
+    //for swiping items to delete
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
@@ -63,6 +63,7 @@ class SavedNewsFragment : Fragment(), ItemCallBacks {
 
     override fun onStart() {
         super.onStart()
+        //get the data from the database
         viewModel.getSavedNews {
             newsAdapter.differ.submitList(it)
         }

@@ -44,6 +44,10 @@ class SearchNewsFragment : Fragment(), ItemCallBacks {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenStarted {
             viewModel.searchNews.collect { response ->
+            //handle the state of the search news
+            //if success show the data
+            //if error show the error message
+            //if loading show progress bar
                 when (response) {
                     is NetworkResponse.Success -> {
                         hideProgressBar()

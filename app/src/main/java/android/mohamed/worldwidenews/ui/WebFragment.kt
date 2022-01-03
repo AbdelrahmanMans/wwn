@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-
+//fragment to view the url link
 class WebFragment : Fragment() {
     private lateinit var binding: FragmentWebBinding
     private lateinit var url: String

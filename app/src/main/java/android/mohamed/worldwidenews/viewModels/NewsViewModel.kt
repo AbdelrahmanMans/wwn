@@ -23,7 +23,10 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 
-
+/*
+    gets the data from the repository and handle it
+    then pass it to the ui
+*/
 class NewsViewModel(private val repository: NewsRepository, private val app: Application) :
     AndroidViewModel(app) {
     private var previousSearch = ""
@@ -46,18 +49,25 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
 
 
     init {
-        //getBreakingNews()
         getUserSettings()
+        getBreakingNews()
     }
-
+    //launch a coroutine and call safeBreakingNewsCall
     fun getBreakingNews() = viewModelScope.launch {
         safeBreakingNewsCall()
     }
-
+    //launch a coroutine and call safeSearchNewsCall
     fun getSearchNews(searchQuery: String) = viewModelScope.launch {
         safeSearchNewsCall(searchQuery)
     }
-
+    /*
+    handle the api response 
+    if the response is successfull return a Success with the data
+    else
+        return error with message
+    takes one parameter
+        response api responsee
+    */
     private fun handleBreakingNews(response: Response<NewsResponse>): NetworkResponse<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -76,7 +86,20 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
 
         return NetworkResponse.Error(response.message(), breakingNewsResponse)
     }
-
+    /*
+    handle the api response 
+    if the response is successfull return a Success with the data
+    else
+        return error with message
+    takes two parameter
+        response api responsee
+        addOldArticle boolean
+        if addOldArticle is true
+        add the old article with the new ones
+        else
+            return the new ones
+        addOldArticle is usefull when searching for different things
+    */
     private fun handleSearchNews(
         response: Response<NewsResponse>,
         addOldArticle: Boolean = true
@@ -105,7 +128,13 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
             searchNewsResponse
         )
     }
-
+    /*
+    if the user has internet
+    trigger the getBreakingNews function
+    and handle the response
+    else
+    return error with no internet network message
+    */
     private suspend fun safeBreakingNewsCall() {
         breakingNews.emit(NetworkResponse.Loading())
         if (isLastBreakingNewsPage) {
@@ -131,9 +160,21 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
             }
         }
     }
-
+    /*
+    if the user has internet
+    trigger the getBreakingNews function
+    and handle the response
+    else
+    return error with no internet network message
+    if the search query is the same previousSearch
+    add the new articles to the old ones
+    */
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         searchNews.emit(NetworkResponse.Loading())
+        val sameQuery = previousSearch == searchQuery
+        if (!sameQuery) {
+            resetSearch()
+        }
         if (isLastSearchNewsPage) {
             searchNews.emit(NetworkResponse.Error("no more articles", searchNewsResponse))
             return
@@ -146,7 +187,7 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
                     userSearchSortBy ?: "publishedAt",
                     searchNewsPageNumber
                 )
-                searchNews.emit(handleSearchNews(response, previousSearch == searchQuery))
+                searchNews.emit(handleSearchNews(response, sameQuery))
                 previousSearch = searchQuery
             } else {
                 searchNews.emit(NetworkResponse.Error("no internet connection"))
@@ -158,11 +199,22 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
             }
         }
     }
+    /*
+    resets the search variables in case of 
+    different search
+    */
+    private fun resetSearch() {
+        searchNewsPageNumber = 1
+        isLastSearchNewsPage = false
+    }
 
+    /*
+    launch a coroutine and insert the article in the database
+    */
     fun insertArticle(article: Article) = viewModelScope.launch {
         repository.insertArticle(article)
     }
-
+    //launch a coroutine and get all articles from dataBase
     fun getSavedNews(onFinish: (List<Article>) -> Unit) {
         viewModelScope.launch {
             val flow = repository.getSavedNews()
@@ -171,12 +223,12 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
             }
         }
     }
-
+    //delete an article from the database
     fun deleteArticle(article: Article) = viewModelScope.launch {
         repository.deleteNews(article)
     }
 
-
+    //check if the user has internet it returns true else false
     private fun checkHasInternet(): Boolean {
         val connectivityManager = getApplication<ApplicationClass>().getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -203,19 +255,22 @@ class NewsViewModel(private val repository: NewsRepository, private val app: App
         }
         return false
     }
-
+    //get the user settings which been set at the settings fragment
     private fun getUserSettings() {
         val file = PreferenceManager.getDefaultSharedPreferences(app)
-        val country = file.getString(Constants.PREFERENCE_COUNTRY_KEY, "")
-        val language = file.getString(Constants.PREFERENCE_SEARCH_LANGUAGE_KEY, "")
-        val category = file.getString(Constants.PREFERENCE_CATEGORY_KEY, "")
-        val sortBy = file.getString(Constants.PREFERENCE_SEARCH_SORT_BY, "")
+        val country = file.getString(Constants.PREFERENCE_COUNTRY_KEY, null)
+        val language = file.getString(Constants.PREFERENCE_SEARCH_LANGUAGE_KEY, null)
+        val category = file.getString(Constants.PREFERENCE_CATEGORY_KEY, null)
+        val sortBy = file.getString(Constants.PREFERENCE_SEARCH_SORT_BY, null)
+        Log.d("NewsViewModel", "getUserSettings: country $country")
+        Log.d("NewsViewModel", "getUserSettings: language $language")
+        Log.d("NewsViewModel", "getUserSettings: sort by $sortBy")
+        Log.d("NewsViewModel", "getUserSettings: category $category")
         app.resources.let {
-            userCountry = it.getStringArray(R.array.breakingNewsCountry)[country?.toInt() ?: 0]
-            userCategory = it.getStringArray(R.array.category)[category?.toInt() ?: 0]
-            userSearchLanguage =
-                it.getStringArray(R.array.searchNewsLanguage)[language?.toInt() ?: 0]
-            userSearchSortBy = it.getStringArray(R.array.searchNewsSortBy)[sortBy?.toInt() ?: 0]
+            userCountry = it.getStringArray(R.array.breakingNewsCountry)[country?.toInt() ?: 14]
+            userCategory = it.getStringArray(R.array.category)[category?.toInt() ?: 6]
+            userSearchLanguage = it.getStringArray(R.array.searchNewsLanguage)[language?.toInt() ?: 0]
+            userSearchSortBy = it.getStringArray(R.array.searchNewsSortBy)[sortBy?.toInt() ?: 2]
         }
     }
 }

@@ -2,18 +2,17 @@
     <!-- Base application theme. -->
     <style name="Theme.WorldWideNews" parent="Theme.MaterialComponents">
         <!-- Primary brand color. -->
-        <item name="android:colorPrimaryDark">#388E3C</item>
-        <item name="colorPrimaryVariant">#C8E6C9</item>
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorSecondary">#8BC34A</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="android:colorPrimaryDark">#7c4dff</item>
+        <item name="colorPrimaryVariant">#7c4dff</item>
+        <item name="colorPrimary">#b47cff</item>
+        <item name="colorSecondary">#536dfe</item>
+        <item name="colorOnPrimary">#ffffff</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondaryVariant">#8BC34A</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">#0043ca</item>
+        <item name="colorOnSecondary">#000000</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
 
     </style>
 </resources>

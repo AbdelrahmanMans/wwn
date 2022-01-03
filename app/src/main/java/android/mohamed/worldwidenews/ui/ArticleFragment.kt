@@ -32,17 +32,19 @@ class ArticleFragment : Fragment() {
         binding = FragmentArticleBinding.inflate(inflater, container, false)
         if (this::article.isInitialized)
             setupUI(article)
+        //when the go to link is clicked navigate to the url fragment
         binding.articleLink.setOnClickListener {
             val action = ArticleFragmentDirections.actionArticleFragmentToWebFragment(article.url)
             findNavController().navigate(action)
         }
+        //when the save article is clicked save the article to the database
         binding.saveArticle.setOnClickListener {
             viewModel.insertArticle(article)
             Toast.makeText(requireContext(), "article saved", Toast.LENGTH_SHORT).show()
         }
         return binding.root
     }
-
+    //put the data in the views
     private fun setupUI(article: Article) {
         binding.articleTitle.text = article.title
         binding.articleDate.text = article.publishedAt?.substring(0, 10)
